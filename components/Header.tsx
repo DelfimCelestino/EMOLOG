@@ -11,15 +11,10 @@ import { ThemeSwitcher } from "./theme/ThemeSwitcher";
 export function Header() {
   const pathname = usePathname();
   const isHome = pathname === "/";
-  const [userName, setUserName] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     setMounted(true);
-    const storedName = localStorage.getItem("userName");
-    if (storedName) {
-      setUserName(storedName);
-    }
   }, []);
 
   if (!mounted) return null;
@@ -47,28 +42,6 @@ export function Header() {
                 className="flex items-center gap-2"
               >
                 <BookOpen className="h-5 w-5 text-primary" />
-                <div className="flex flex-col">
-                  <div className="flex items-center gap-2">
-                    <h1 className="text-sm font-medium text-primary">EMOLOG</h1>
-                    {userName && (
-                      <motion.span
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="text-[10px] text-muted-foreground"
-                      >
-                        •{" "}
-                        <span className="font-medium text-primary">
-                          {userName}
-                        </span>
-                      </motion.span>
-                    )}
-                  </div>
-                  <p className="text-[10px] text-muted-foreground">
-                    {userName
-                      ? `Olá! Que tal registrar seu dia?`
-                      : "Registre seus pensamentos"}
-                  </p>
-                </div>
               </motion.div>
             )}
           </div>
