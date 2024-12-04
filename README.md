@@ -1,36 +1,47 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# EMOLOG - Seu Diário Eletrônico Pessoal
 
-## Getting Started
+## Sobre o EMOLOG
 
-First, run the development server:
+EMOLOG é uma plataforma de diário eletrônico projetada para ajudar você a registrar seus pensamentos, emoções e experiências diárias de forma fácil e segura. Com uma interface intuitiva e recursos poderosos, o EMOLOG torna o hábito de escrever um diário mais acessível e gratificante.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Características Principais
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Entradas Diárias**: Crie e edite entradas de diário facilmente.
+- **Segurança**: Suas entradas são criptografadas e protegidas.
+- **Busca Rápida**: Encontre entradas antigas rapidamente com nossa função de busca.
+- **Etiquetas e Categorias**: Organize suas entradas com etiquetas personalizáveis.
+- **Análise de Humor**: Acompanhe seu bem-estar emocional ao longo do tempo.
+- **Multiplataforma**: Acesse seu diário de qualquer dispositivo.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Como Começar
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Visite [www.emolog.com](https://www.emolog.com) (substitua pelo URL real)
+2. Clique em "Criar Conta"
+3. Preencha suas informações e crie uma senha segura
+4. Faça login e comece a escrever!
 
-## Learn More
+## Uso
 
-To learn more about Next.js, take a look at the following resources:
+- **Nova Entrada**: Clique no botão \"+\" para criar uma nova entrada.
+- **Editar**: Abra uma entrada existente e clique em \"Editar\".
+- **Buscar**: Use a barra de busca para encontrar entradas específicas.
+- **Etiquetas**: Adicione etiquetas às suas entradas para organizá-las.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Suporte
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Encontrou algum problema ou tem sugestões? Entre em contato conosco:
 
-## Deploy on Vercel
+- Email: suporte@emolog.com
+- Twitter: [@EMOLOG_suporte](https://twitter.com/EMOLOG_suporte)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Contribua
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+EMOLOG é um projeto em constante evolução. Se você tem ideias para melhorar nossa plataforma, ficaremos felizes em ouvir! Visite nossa página de [Issues](https://github.com/EMOLOG/issues) no GitHub para contribuir.
+
+## Licença
+
+EMOLOG é um software proprietário. Todos os direitos reservados.
+
+---
+
+Obrigado por escolher EMOLOG para seu diário eletrônico. Esperamos que nossa plataforma ajude você a capturar e refletir sobre os momentos importantes da sua vida!

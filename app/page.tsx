@@ -1,101 +1,282 @@
-import Image from "next/image";
+"use client";
+
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Calendar,
+  ArrowRight,
+  Search,
+  BookOpen,
+  SunMedium,
+  Cloud,
+  CloudRain,
+  CloudSun,
+} from "lucide-react";
+import { parseContent } from "@/lib/utils";
+
+type JournalEntry = {
+  id: number;
+  title: string;
+  date: string;
+  mood:
+    | "Feliz"
+    | "Triste"
+    | "Ansioso"
+    | "Relaxado"
+    | "Irritado"
+    | "Energético"
+    | "Cansado"
+    | "Inspirado";
+  content: string;
+};
+
+const MOOD_COLORS = {
+  Feliz: {
+    light:
+      "bg-yellow-50/50 hover:bg-yellow-50 border-yellow-200 text-yellow-600",
+    dark: "dark:bg-yellow-950/50 dark:hover:bg-yellow-900 dark:border-yellow-800 dark:text-yellow-400",
+  },
+  Triste: {
+    light:
+      "bg-indigo-50/50 hover:bg-indigo-50 border-indigo-200 text-indigo-600",
+    dark: "dark:bg-indigo-950/50 dark:hover:bg-indigo-900 dark:border-indigo-800 dark:text-indigo-400",
+  },
+  Ansioso: {
+    light:
+      "bg-orange-50/50 hover:bg-orange-50 border-orange-200 text-orange-600",
+    dark: "dark:bg-orange-950/50 dark:hover:bg-orange-900 dark:border-orange-800 dark:text-orange-400",
+  },
+  Relaxado: {
+    light: "bg-teal-50/50 hover:bg-teal-50 border-teal-200 text-teal-600",
+    dark: "dark:bg-teal-950/50 dark:hover:bg-teal-900 dark:border-teal-800 dark:text-teal-400",
+  },
+  Irritado: {
+    light: "bg-rose-50/50 hover:bg-rose-50 border-rose-200 text-rose-600",
+    dark: "dark:bg-rose-950/50 dark:hover:bg-rose-900 dark:border-rose-800 dark:text-rose-400",
+  },
+  Energético: {
+    light:
+      "bg-fuchsia-50/50 hover:bg-fuchsia-50 border-fuchsia-200 text-fuchsia-600",
+    dark: "dark:bg-fuchsia-950/50 dark:hover:bg-fuchsia-900 dark:border-fuchsia-800 dark:text-fuchsia-400",
+  },
+  Cansado: {
+    light: "bg-slate-50/50 hover:bg-slate-50 border-slate-200 text-slate-600",
+    dark: "dark:bg-slate-950/50 dark:hover:bg-slate-900 dark:border-slate-800 dark:text-slate-400",
+  },
+  Inspirado: {
+    light: "bg-cyan-50/50 hover:bg-cyan-50 border-cyan-200 text-cyan-600",
+    dark: "dark:bg-cyan-950/50 dark:hover:bg-cyan-900 dark:border-cyan-800 dark:text-cyan-400",
+  },
+};
+
+const MOOD_ICONS = {
+  Feliz: SunMedium,
+  Triste: CloudRain,
+  Ansioso: Cloud,
+  Relaxado: CloudSun,
+  Irritado: CloudRain,
+  Energético: SunMedium,
+  Cansado: Cloud,
+  Inspirado: SunMedium,
+};
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [entries, setEntries] = useState<JournalEntry[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortBy, setSortBy] = useState<"date" | "mood">("date");
+  const [isLoading, setIsLoading] = useState(true);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+    const storedEntries = localStorage.getItem("journalEntries");
+    if (storedEntries) {
+      setEntries(JSON.parse(storedEntries));
+    }
+    setIsLoading(false);
+  }, []);
+
+  const filteredEntries = entries
+    .filter(
+      (entry) =>
+        entry.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        entry.content.toLowerCase().includes(searchTerm.toLowerCase())
+    )
+    .sort((a, b) =>
+      sortBy === "date"
+        ? new Date(b.date).getTime() - new Date(a.date).getTime()
+        : a.mood.localeCompare(b.mood)
+    );
+
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const item = {
+    hidden: { y: 20, opacity: 0 },
+    show: { y: 0, opacity: 1 },
+  };
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-pulse space-y-4">
+          <div className="h-12 w-48 bg-muted rounded"></div>
+          <div className="h-4 w-64 bg-muted rounded"></div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      </div>
+    );
+  }
+
+  return (
+    <ScrollArea className="h-[calc(100vh-3.5rem)]">
+      <div className="container mx-auto p-4 space-y-6">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex flex-col gap-4"
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          {entries.length === 0 ? (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="text-center py-12 bg-background rounded-lg border border-dashed"
+            >
+              <BookOpen className="h-8 w-8 mx-auto text-muted-foreground mb-3" />
+              <div className="mb-3 text-xs text-muted-foreground">
+                Seu diário está esperando pela primeira história
+              </div>
+              <Link href="/new-entry">
+                <Button variant="secondary" className="h-8 text-xs">
+                  Comece seu primeiro registro
+                </Button>
+              </Link>
+            </motion.div>
+          ) : (
+            <>
+              <div className="flex flex-row gap-2 items-center">
+                <div className="relative flex-1">
+                  <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-muted-foreground h-3.5 w-3.5" />
+                  <Input
+                    placeholder="Pesquisar entradas..."
+                    className="pl-8 h-8 text-xs"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
+                </div>
+                <Select
+                  value={sortBy}
+                  onValueChange={(value) => setSortBy(value as "date" | "mood")}
+                >
+                  <SelectTrigger className="w-[120px] h-8 text-xs">
+                    <SelectValue placeholder="Ordenar por" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="date" className="text-xs">
+                      Data
+                    </SelectItem>
+                    <SelectItem value="mood" className="text-xs">
+                      Humor
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <motion.div
+                variants={container}
+                initial="hidden"
+                animate="show"
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"
+              >
+                {filteredEntries.map((entry) => {
+                  const MoodIcon =
+                    MOOD_ICONS[entry.mood as keyof typeof MOOD_ICONS];
+                  const moodColor =
+                    MOOD_COLORS[entry.mood as keyof typeof MOOD_COLORS];
+
+                  return (
+                    <motion.div key={entry.id} variants={item}>
+                      <Card
+                        className={`group h-full flex flex-col transition-all duration-300 border backdrop-blur-sm cursor-pointer 
+                          ${moodColor.light} ${moodColor.dark}`}
+                      >
+                        <CardHeader className="p-3 space-y-2">
+                          <div className="flex items-center gap-1.5">
+                            <Calendar className="h-3 w-3 text-muted-foreground" />
+                            <span className="text-[10px] text-muted-foreground">
+                              {new Date(entry.date).toLocaleDateString(
+                                "pt-BR",
+                                {
+                                  weekday: "long",
+                                  year: "numeric",
+                                  month: "long",
+                                  day: "numeric",
+                                }
+                              )}
+                            </span>
+                          </div>
+                          <CardTitle className="line-clamp-1 text-sm font-medium">
+                            {entry.title}
+                          </CardTitle>
+                        </CardHeader>
+                        <CardContent className="flex-1 p-3 space-y-2">
+                          <Badge
+                            variant="secondary"
+                            className={`flex items-center gap-1 w-fit text-[10px] px-2 py-0.5 
+                              bg-background/50 dark:bg-background/50 backdrop-blur-sm
+                              border border-border/50`}
+                          >
+                            <MoodIcon className="h-3 w-3" />
+                            {entry.mood}
+                          </Badge>
+                          <p className="text-muted-foreground line-clamp-3 text-xs">
+                            {parseContent(entry.content)}
+                          </p>
+                        </CardContent>
+                        <CardFooter className="p-3">
+                          <Link href={`/entry/${entry.id}`} className="w-full">
+                            <Button
+                              variant="secondary"
+                              className="w-full h-7 text-[10px] flex items-center justify-between
+                                bg-background/50 dark:bg-background/50 backdrop-blur-sm"
+                            >
+                              Ler mais
+                              <ArrowRight className="h-3 w-3 transition-transform group-hover:translate-x-1" />
+                            </Button>
+                          </Link>
+                        </CardFooter>
+                      </Card>
+                    </motion.div>
+                  );
+                })}
+              </motion.div>
+            </>
+          )}
+        </motion.div>
+      </div>
+    </ScrollArea>
   );
 }
