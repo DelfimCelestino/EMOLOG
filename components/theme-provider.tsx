@@ -16,7 +16,7 @@ export function ThemeProvider({
 
   React.useEffect(() => {
     if (mounted) {
-      const savedThemeColor = localStorage.getItem("themeColor") || "green";
+      const savedThemeColor = localStorage.getItem("themeColor") || "nord";
       const savedTheme = localStorage.getItem("theme") || "dark";
 
       const root = document.documentElement;
