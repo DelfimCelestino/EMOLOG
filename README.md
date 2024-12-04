@@ -15,7 +15,7 @@ EMOLOG é uma plataforma de diário eletrônico projetada para ajudar você a re
 
 ## Como Começar
 
-1. Visite [www.emolog.com](https://www.emolog.vercel.app)
+1. Visite [www.emolog.vercel.app](https://www.emolog.vercel.app)
 2. Clique em "Criar Conta"
 3. Preencha suas informações e crie uma senha segura
 4. Faça login e comece a escrever!
